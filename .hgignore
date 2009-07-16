@@ -2,6 +2,6 @@
 syntax: regexp
 ^\.project$
 syntax: regexp
-^TuxAndDroid/bin$
+^TuxAndDroid/bin(\/.*)?$
 syntax: regexp
-^TuxAndDroid/gen$
+^TuxAndDroid/gen(\/.*)?$
