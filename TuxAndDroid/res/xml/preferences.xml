@@ -1,0 +1,3 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<EditTextPreference android:title="@string/pc_ip" android:key="pc_ip" android:summary="IP or hostname of the tux's server" android:defaultValue="192.168.18.1"></EditTextPreference>
+</PreferenceScreen>
