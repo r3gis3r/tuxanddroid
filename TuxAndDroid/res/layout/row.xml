@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:orientation="horizontal"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		>
+	<TextView
+			android:id="@+id/row_name"
+			android:layout_height="wrap_content"
+			android:layout_width="fill_parent" android:textSize="25sp" android:paddingLeft="10px"/>
+	<TextView
+			android:id="@+id/row_url"
+			android:textStyle="italic"
+			android:layout_height="wrap_content" android:layout_width="fill_parent" android:layout_below="@id/row_name" android:gravity="right"/>
+</RelativeLayout>
