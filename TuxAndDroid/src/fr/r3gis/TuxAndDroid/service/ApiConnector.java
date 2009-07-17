@@ -79,7 +79,7 @@ public class ApiConnector extends Service {
 	/**
 	 * Connect to the httptux server to provide api to control tux
 	 */
-	private void connectToServer(){
+	public void connectToServer(){
 		
 		if(connecting_thread != null){
     		connecting_thread.stop();
