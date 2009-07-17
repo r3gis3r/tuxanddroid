@@ -119,7 +119,6 @@ public class AttitunesProvider extends ContentProvider {
 							"http://www.livewithapenguin.com/attitunes/attitunes/unwantedmail.att");
 					db.insert(getTableName(), getNullColumnHack(), cv);
 					
-					
 					cv.put(Attitunes.FIELD_NAME, "Aerobics");
 					cv.put(Attitunes.FIELD_URL,
 							"http://www.livewithapenguin.com/attitunes/attitunes/aero.att");
