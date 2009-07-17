@@ -10,19 +10,20 @@ import android.content.DialogInterface;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.SimpleCursorAdapter;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 
 public class AttitunesList extends ListActivity {
 	private static final int ADD_ID = Menu.FIRST + 1;
-	//private static final int EDIT_ID = Menu.FIRST + 2;
+	private static final int EDIT_ID = Menu.FIRST + 2;
 	private static final int DELETE_ID = Menu.FIRST + 3;
 	//private static final int LAUNCH_ID = Menu.FIRST + 4;
 	private static final int CLOSE_ID = Menu.FIRST + 5;
@@ -80,19 +81,26 @@ public class AttitunesList extends ListActivity {
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenu.ContextMenuInfo menuInfo) {
+		menu.add(Menu.NONE, EDIT_ID, Menu.NONE, "Edit").setIcon(
+				android.R.drawable.ic_menu_edit).setAlphabeticShortcut('e');
 		menu.add(Menu.NONE, DELETE_ID, Menu.NONE, "Delete").setIcon(
 				android.R.drawable.ic_menu_delete).setAlphabeticShortcut('d');
 	}
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
+		AdapterContextMenuInfo info;
 		switch (item.getItemId()) {
+		case EDIT_ID:
+			info = (AdapterContextMenuInfo) item.getMenuInfo();
+
+			edit(info.id);
+			return true;
 		case DELETE_ID:
-			AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item
-					.getMenuInfo();
+			info = (AdapterContextMenuInfo) item.getMenuInfo();
 
 			delete(info.id);
-			return (true);
+			return true;
 		}
 
 		return (super.onOptionsItemSelected(item));
@@ -117,6 +125,39 @@ public class AttitunesList extends ListActivity {
 								// ignore, just dismiss
 							}
 						}).show();
+	}
+	
+	private void edit(final long rowId){
+		LayoutInflater inflater = LayoutInflater.from(this);
+		View addView = inflater.inflate(R.layout.add_edit, null);
+		final DialogWrapper wrapper = new DialogWrapper(addView);
+		
+
+		new AlertDialog.Builder(this).setTitle(R.string.edit_attitune_title)
+				.setView(addView).setPositiveButton(R.string.ok,
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,
+									int whichButton) {
+								processUpdate(rowId, wrapper);
+							}
+						}).setNegativeButton(R.string.cancel,
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,
+									int whichButton) {
+								// ignore, just dismiss
+							}
+						}).show();
+		//Fill fields with good vals
+		Cursor c = getContentResolver().query(Uri.withAppendedPath(AttitunesProvider.Attitunes.CONTENT_URI, ""+rowId), PROJECTION, null, null, null);
+		if(c.getCount()>0){
+			c.moveToFirst();
+			wrapper.nameField.setText(c.getString(1));
+			wrapper.urlField.setText(c.getString(2));
+		}else{
+			Log.w("AttituneList", "Error a improbable attitune was clicked");
+		}
+		c.close();
+		
 	}
 
 	private void delete(final long rowId) {
@@ -149,6 +190,17 @@ public class AttitunesList extends ListActivity {
 		constantsCursor.requery();
 	}
 
+	private void processUpdate(long rowId, DialogWrapper wrapper){
+		ContentValues values = new ContentValues(2);
+
+		values.put(AttitunesProvider.Attitunes.FIELD_NAME, wrapper.getName());
+		values.put(AttitunesProvider.Attitunes.FIELD_URL, wrapper.getUrl());
+
+		getContentResolver().update(Uri.withAppendedPath(AttitunesProvider.Attitunes.CONTENT_URI, ""+rowId),
+				values, null, null);
+		constantsCursor.requery();
+	}
+	
 	private void processDelete(long rowId) {
 		Uri uri = ContentUris.withAppendedId(
 				AttitunesProvider.Attitunes.CONTENT_URI, rowId);

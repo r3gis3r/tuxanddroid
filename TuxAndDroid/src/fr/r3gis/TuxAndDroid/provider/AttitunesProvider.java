@@ -80,17 +80,64 @@ public class AttitunesProvider extends ContentProvider {
 							+ Attitunes.FIELD_NAME + " TEXT,"
 							+ Attitunes.FIELD_URL + " REAL" + ");");
 
+					//Populate defaults 
 					ContentValues cv = new ContentValues();
 
-					cv.put(Attitunes.FIELD_NAME, "Test number 1");
+					cv.put(Attitunes.FIELD_NAME, "Joke 1");
 					cv.put(Attitunes.FIELD_URL,
-							"http://www.r3gis.fr/test/attitunes1.att");
+							"http://www.livewithapenguin.com/attitunes/attitunes/joke1.att");
 					db.insert(getTableName(), getNullColumnHack(), cv);
 
-					cv.put(Attitunes.FIELD_NAME, "Test number 2");
+					cv.put(Attitunes.FIELD_NAME, "Joke 2");
 					cv.put(Attitunes.FIELD_URL,
-							"http://www.r3gis.fr/test/attitunes2.att");
+							"http://www.livewithapenguin.com/attitunes/attitunes/joke2.att");
 					db.insert(getTableName(), getNullColumnHack(), cv);
+
+					cv.put(Attitunes.FIELD_NAME, "Joke 3");
+					cv.put(Attitunes.FIELD_URL,
+							"http://www.livewithapenguin.com/attitunes/attitunes/joke3.att");
+					db.insert(getTableName(), getNullColumnHack(), cv);
+					
+					cv.put(Attitunes.FIELD_NAME, "Seal");
+					cv.put(Attitunes.FIELD_URL,
+							"http://www.livewithapenguin.com/attitunes/attitunes/seal.att");
+					db.insert(getTableName(), getNullColumnHack(), cv);
+					
+					
+					cv.put(Attitunes.FIELD_NAME, "Yoga");
+					cv.put(Attitunes.FIELD_URL,
+							"http://www.livewithapenguin.com/attitunes/attitunes/yoga.att");
+					db.insert(getTableName(), getNullColumnHack(), cv);
+					
+					cv.put(Attitunes.FIELD_NAME, "Strike");
+					cv.put(Attitunes.FIELD_URL,
+							"http://www.livewithapenguin.com/attitunes/attitunes/strike.att");
+					db.insert(getTableName(), getNullColumnHack(), cv);
+					
+					cv.put(Attitunes.FIELD_NAME, "Unwanted mail");
+					cv.put(Attitunes.FIELD_URL,
+							"http://www.livewithapenguin.com/attitunes/attitunes/unwantedmail.att");
+					db.insert(getTableName(), getNullColumnHack(), cv);
+					
+					
+					cv.put(Attitunes.FIELD_NAME, "Aerobics");
+					cv.put(Attitunes.FIELD_URL,
+							"http://www.livewithapenguin.com/attitunes/attitunes/aero.att");
+					db.insert(getTableName(), getNullColumnHack(), cv);
+					
+					
+					cv.put(Attitunes.FIELD_NAME, "Mc Hammer");
+					cv.put(Attitunes.FIELD_URL,
+							"http://www.livewithapenguin.com/attitunes/attitunes/hammer.att");
+					db.insert(getTableName(), getNullColumnHack(), cv);
+					
+					
+					cv.put(Attitunes.FIELD_NAME, "Lady Bug");
+					cv.put(Attitunes.FIELD_URL,
+							"http://www.livewithapenguin.com/attitunes/attitunes/ladybug.att");
+					db.insert(getTableName(), getNullColumnHack(), cv);
+					
+					
 				}
 			} finally {
 				c.close();
