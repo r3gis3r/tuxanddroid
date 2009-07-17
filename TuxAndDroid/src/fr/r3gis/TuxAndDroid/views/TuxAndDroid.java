@@ -14,11 +14,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -29,6 +27,7 @@ public class TuxAndDroid extends Activity {
 	private Intent serviceIntent=null;
 	
 	public static final int PARAMS_MENU = Menu.FIRST+1;
+	public static final int ATTITUNES_MENU = Menu.FIRST+2;
 	
 	//Reciever for tux updates
 	private BroadcastReceiver receiver = new BroadcastReceiver() {
@@ -53,12 +52,6 @@ public class TuxAndDroid extends Activity {
 		startService(serviceIntent);
     }
     
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v,
-    		ContextMenuInfo menuInfo) {
-    	populateMenu(menu);
-    	super.onCreateContextMenu(menu, v, menuInfo);
-    }
     
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -73,6 +66,8 @@ public class TuxAndDroid extends Activity {
 		case PARAMS_MENU:
 			startActivity(new Intent(this, TuxPreferences.class));
 			return true;
+		case ATTITUNES_MENU:
+			startActivity(new Intent(this, AttitunesList.class));
 		}
     	return super.onOptionsItemSelected(item);
     }
@@ -101,6 +96,9 @@ public class TuxAndDroid extends Activity {
     private void populateMenu(Menu menu){
     	menu.add(Menu.NONE, PARAMS_MENU, Menu.NONE, "Params")
     		.setIcon(android.R.drawable.ic_menu_preferences);
+    	
+    	menu.add(Menu.NONE, ATTITUNES_MENU, Menu.NONE, "Attitunes")
+    		.setIcon(android.R.drawable.ic_menu_gallery);
     }
     
     
