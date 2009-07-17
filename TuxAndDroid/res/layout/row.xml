@@ -7,9 +7,8 @@
 	<TextView
 			android:id="@+id/row_name"
 			android:layout_height="wrap_content"
-			android:layout_width="fill_parent" android:textSize="25sp" android:paddingLeft="10px"/>
+			android:layout_width="fill_parent" android:textSize="25sp" android:paddingLeft="10px" android:singleLine="true" android:ellipsize="end"/>
 	<TextView
 			android:id="@+id/row_url"
-			android:textStyle="italic"
-			android:layout_height="wrap_content" android:layout_width="fill_parent" android:layout_below="@id/row_name" android:gravity="right"/>
+			android:layout_height="wrap_content" android:layout_width="fill_parent" android:layout_below="@id/row_name" android:gravity="right" android:ellipsize="middle" android:singleLine="true" android:textStyle="italic" android:paddingLeft="20px" android:paddingRight="20px"/>
 </RelativeLayout>

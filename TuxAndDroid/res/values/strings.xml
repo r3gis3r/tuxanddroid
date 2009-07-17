@@ -4,7 +4,8 @@
     <string name="app_name">TuxAndDroid</string>
 <string name="pc_ip">Server address</string>
 <string name="add_attitune_title">Add a new attitune url</string>
-<string name="ok">OK</string>
+<string name="edit_attitune_title">Edit this attitune</string><string name="delete_attitune_title">Delete this attitune from your list</string><string name="ok">OK</string>
 <string name="cancel">Cancel</string>
-<string name="delete_attitune_title">Delete this attitune from your list</string>
+
+
 </resources>
