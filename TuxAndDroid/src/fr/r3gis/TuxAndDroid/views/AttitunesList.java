@@ -2,6 +2,7 @@ package fr.r3gis.TuxAndDroid.views;
 
 import fr.r3gis.TuxAndDroid.R;
 import fr.r3gis.TuxAndDroid.provider.AttitunesProvider;
+import fr.r3gis.TuxAndDroid.service.ApiConnector;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.ContentUris;
@@ -18,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
@@ -25,7 +27,7 @@ public class AttitunesList extends ListActivity {
 	private static final int ADD_ID = Menu.FIRST + 1;
 	private static final int EDIT_ID = Menu.FIRST + 2;
 	private static final int DELETE_ID = Menu.FIRST + 3;
-	//private static final int LAUNCH_ID = Menu.FIRST + 4;
+	private static final int LAUNCH_ID = Menu.FIRST + 4;
 	private static final int CLOSE_ID = Menu.FIRST + 5;
 
 	
@@ -33,17 +35,17 @@ public class AttitunesList extends ListActivity {
 			AttitunesProvider.Attitunes._ID,
 			AttitunesProvider.Attitunes.FIELD_NAME,
 			AttitunesProvider.Attitunes.FIELD_URL };
-	private Cursor constantsCursor;
+	private Cursor attituneCursor;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		constantsCursor = managedQuery(AttitunesProvider.Attitunes.CONTENT_URI,
+		attituneCursor = managedQuery(AttitunesProvider.Attitunes.CONTENT_URI,
 				PROJECTION, null, null, null);
 
 		ListAdapter adapter = new SimpleCursorAdapter(this, R.layout.row,
-				constantsCursor, new String[] {
+				attituneCursor, new String[] {
 						AttitunesProvider.Attitunes.FIELD_NAME,
 						AttitunesProvider.Attitunes.FIELD_URL }, new int[] {
 						R.id.row_name, R.id.row_url });
@@ -56,9 +58,9 @@ public class AttitunesList extends ListActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(Menu.NONE, ADD_ID, Menu.NONE, "Add").setIcon(
 				android.R.drawable.ic_menu_add).setAlphabeticShortcut('a');
-		menu.add(Menu.NONE, CLOSE_ID, Menu.NONE, "Close").setIcon(
+		menu.add(Menu.NONE, CLOSE_ID, Menu.NONE, "Stop current attitune").setIcon(
 				android.R.drawable.ic_menu_close_clear_cancel)
-				.setAlphabeticShortcut('c');
+				.setAlphabeticShortcut('s');
 
 		return (super.onCreateOptionsMenu(menu));
 	}
@@ -71,7 +73,7 @@ public class AttitunesList extends ListActivity {
 			return (true);
 
 		case CLOSE_ID:
-			finish();
+			processStopAtt();
 			return (true);
 		}
 
@@ -83,14 +85,34 @@ public class AttitunesList extends ListActivity {
 			ContextMenu.ContextMenuInfo menuInfo) {
 		menu.add(Menu.NONE, EDIT_ID, Menu.NONE, "Edit").setIcon(
 				android.R.drawable.ic_menu_edit).setAlphabeticShortcut('e');
+		menu.add(Menu.NONE, LAUNCH_ID, Menu.NONE, "Launch").setIcon(
+				android.R.drawable.ic_menu_view).setAlphabeticShortcut('l');
 		menu.add(Menu.NONE, DELETE_ID, Menu.NONE, "Delete").setIcon(
 				android.R.drawable.ic_menu_delete).setAlphabeticShortcut('d');
+	}
+	
+	@Override
+	protected void onListItemClick(ListView l, View v, int position, long id) {
+		
+		super.onListItemClick(l, v, position, id);
+		
+		attituneCursor.moveToPosition(position);
+		
+	//	launch( attituneCursor.getString(2));
+		Log.i("Attitune list", attituneCursor.getString(2));
+		processLaunch(attituneCursor.getString(2));
+		
 	}
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		AdapterContextMenuInfo info;
 		switch (item.getItemId()) {
+		case LAUNCH_ID:
+			info = (AdapterContextMenuInfo) item.getMenuInfo();
+
+			launch(info.id);
+			return true;
 		case EDIT_ID:
 			info = (AdapterContextMenuInfo) item.getMenuInfo();
 
@@ -159,6 +181,18 @@ public class AttitunesList extends ListActivity {
 		c.close();
 		
 	}
+	
+	private void launch(final long rowId){
+		Cursor c = getContentResolver().query(Uri.withAppendedPath(AttitunesProvider.Attitunes.CONTENT_URI, ""+rowId), PROJECTION, null, null, null);
+		if(c.getCount()>0){
+			c.moveToFirst();
+			String url = c.getString(2);
+			processLaunch(url);
+		}else{
+			Log.w("AttituneList", "Error a improbable attitune was clicked");
+		}
+		c.close();
+	}
 
 	private void delete(final long rowId) {
 		if (rowId > 0) {
@@ -187,9 +221,18 @@ public class AttitunesList extends ListActivity {
 
 		getContentResolver().insert(AttitunesProvider.Attitunes.CONTENT_URI,
 				values);
-		constantsCursor.requery();
+		attituneCursor.requery();
 	}
 
+	private void processLaunch(String url){
+		ApiConnector.tux.attitune.load(url);
+		ApiConnector.tux.attitune.play();
+	}
+	
+	private void processStopAtt(){
+		ApiConnector.tux.attitune.stop();
+	}
+	
 	private void processUpdate(long rowId, DialogWrapper wrapper){
 		ContentValues values = new ContentValues(2);
 
@@ -198,14 +241,14 @@ public class AttitunesList extends ListActivity {
 
 		getContentResolver().update(Uri.withAppendedPath(AttitunesProvider.Attitunes.CONTENT_URI, ""+rowId),
 				values, null, null);
-		constantsCursor.requery();
+		attituneCursor.requery();
 	}
 	
 	private void processDelete(long rowId) {
 		Uri uri = ContentUris.withAppendedId(
 				AttitunesProvider.Attitunes.CONTENT_URI, rowId);
 		getContentResolver().delete(uri, null, null);
-		constantsCursor.requery();
+		attituneCursor.requery();
 	}
 
 	class DialogWrapper {
