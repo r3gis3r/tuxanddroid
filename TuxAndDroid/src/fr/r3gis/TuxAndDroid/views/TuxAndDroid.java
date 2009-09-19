@@ -13,10 +13,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -40,7 +42,13 @@ public class TuxAndDroid extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFormat(PixelFormat.TRANSLUCENT);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND, WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
+        
+        
         setContentView(R.layout.main);
+        
+        
         
         //Start to disable buttons
         setButtonsEnabled(false);
@@ -138,7 +146,7 @@ public class TuxAndDroid extends Activity {
         });
         
         //TTS
-        Button bt = (Button) findViewById(R.id.SayIt);
+        ImageButton bt = (ImageButton) findViewById(R.id.SayIt);
         bt.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
         		EditText textfield = (EditText) findViewById(R.id.TextToSpeach);
@@ -169,7 +177,7 @@ public class TuxAndDroid extends Activity {
     	setButtonEnable(R.id.OpenFlip, active);
     	setButtonEnable(R.id.CloseFlip, active);
     	
-    	Button bt = (Button) findViewById(R.id.SayIt);
+    	ImageButton bt = (ImageButton) findViewById(R.id.SayIt);
     	bt.setFocusable(active);
     	bt.setEnabled(active);
     }
