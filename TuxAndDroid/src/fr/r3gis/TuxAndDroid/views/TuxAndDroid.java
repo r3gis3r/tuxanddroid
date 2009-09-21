@@ -15,10 +15,13 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AbsoluteLayout;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -48,6 +51,17 @@ public class TuxAndDroid extends Activity {
         
         setContentView(R.layout.main);
         
+        //Listen for absolute layout events
+        View tuxframe = findViewById(R.id.TuxMain);
+        
+        tuxframe.setOnTouchListener(new View.OnTouchListener() {
+			
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				Log.d("TuxAndDroid", "Touch event ; "+event.toString());
+				return true;
+			}
+		});
         
         
         //Start to disable buttons
@@ -80,6 +94,7 @@ public class TuxAndDroid extends Activity {
     	return super.onOptionsItemSelected(item);
     }
     
+    
     @Override
     public void onResume(){
     	super.onResume();
@@ -100,6 +115,8 @@ public class TuxAndDroid extends Activity {
     	//For next steps surely not
     	stopService(serviceIntent);
     }
+    
+    
     
     private void populateMenu(Menu menu){
     	menu.add(Menu.NONE, PARAMS_MENU, Menu.NONE, "Params")

@@ -75,6 +75,7 @@ public class AttitunesList extends ListActivity {
 		case CLOSE_ID:
 			processStopAtt();
 			return (true);
+			
 		}
 
 		return (super.onOptionsItemSelected(item));
