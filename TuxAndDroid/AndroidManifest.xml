@@ -10,7 +10,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-    <activity android:name=".views.AttitunesList"></activity><activity android:name=".views.TuxPreferences"></activity>
+    <activity android:name=".views.AttitunesList" android:theme="@android:style/Theme.Dialog"></activity><activity android:name=".views.TuxPreferences"></activity>
 <service android:name=".service.ApiConnector"></service>
 <provider android:name=".provider.AttitunesProvider" android:authorities="fr.r3gis.TuxAndDroid.provider"></provider>
 
