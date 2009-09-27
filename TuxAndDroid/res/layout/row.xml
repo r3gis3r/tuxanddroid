@@ -2,13 +2,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 		android:orientation="horizontal"
 		android:layout_width="fill_parent"
-		android:layout_height="fill_parent"
-		>
+		android:layout_height="fill_parent" android:background="#00000000">
 	<TextView
 			android:id="@+id/row_name"
 			android:layout_height="wrap_content"
-			android:layout_width="fill_parent" android:textSize="25sp" android:paddingLeft="10px" android:singleLine="true" android:ellipsize="end"/>
+			android:layout_width="fill_parent" android:textSize="25sp" android:paddingLeft="10px" android:ellipsize="end" android:maxLines="1" android:textColor="#FFFFFF"/>
 	<TextView
 			android:id="@+id/row_url"
-			android:layout_height="wrap_content" android:layout_width="fill_parent" android:layout_below="@id/row_name" android:gravity="right" android:ellipsize="middle" android:singleLine="true" android:textStyle="italic" android:paddingLeft="20px" android:paddingRight="20px"/>
+			android:layout_height="wrap_content" android:layout_width="fill_parent" android:layout_below="@id/row_name" android:gravity="right" android:ellipsize="middle" android:textStyle="italic" android:paddingLeft="20px" android:paddingRight="20px" android:maxLines="1" android:textColor="#7777FF"/>
 </RelativeLayout>

@@ -99,11 +99,14 @@ public class ApiConnector extends Service {
     	    	tux.event.handler.register("all", new Object(){
     	    		@SuppressWarnings("unused")
 					public void onAllEvent(String name, String value, Double delay) {
-    	    	 		Log.i("TuxEventListener", String.format("onAllEvent : %s %s", name, value));
+    	    	 	//	Log.i("TuxEventListener", String.format("onAllEvent : %s %s", name, value));
     	    	 		// Update current status
     	    	 		current_status.put(name, value);
     	    	 		// And send its done to all listeners via a broadcast message
-    	    	 		sendBroadcast(broadcast_state_changed);
+    	    	 		//Skip battery state to improve perfs
+    	    	 		if(!name.equals("battery_state")){
+    	    	 			sendBroadcast(broadcast_state_changed);
+    	    	 		}
     	    	 		
     	    	 	}
     	    	}, "onAllEvent");
