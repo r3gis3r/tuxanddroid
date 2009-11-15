@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AbsoluteLayout android:id="@+id/AbsoluteLayout01"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:background="#3F000000">
+	<AbsoluteLayout android:layout_height="wrap_content"
+		android:layout_width="wrap_content" android:id="@+id/TuxMain"
+		android:layout_y="50px" android:layout_x="320px">
+		<ImageView android:id="@+id/EyeRight" android:scaleType="fitXY"
+			android:layout_height="80px" android:layout_width="193px"
+			android:src="@drawable/right_eye_off_big" android:layout_y="0px" android:layout_x="2px"></ImageView>
+		<ImageView android:id="@+id/EyeLeft" android:layout_y="0dip"
+			android:scaleType="fitXY" android:layout_height="80px"
+			android:layout_width="193px" android:src="@drawable/left_eye_off_big" android:layout_x="195px"></ImageView>
+		<ImageView android:id="@+id/Mouth" android:layout_x="0dip"
+			android:scaleType="fitXY" android:layout_y="80px"
+			android:src="@drawable/mouth_closed_big" android:layout_height="62px"
+			android:layout_width="389px"></ImageView>
+		<ImageView android:layout_x="0dip" android:id="@+id/Flippers"
+			android:scaleType="fitXY" android:src="@drawable/flippers_down_big"
+			android:layout_y="142px" android:layout_width="389px"
+			android:layout_height="152px"></ImageView>
+		<ImageView android:layout_x="0dip" android:id="@+id/Spin"
+			android:scaleType="fitXY" android:src="@drawable/spin_off_big"
+			android:layout_y="294px" android:layout_width="389px"
+			android:layout_height="69px"></ImageView>
+	</AbsoluteLayout>
+	<EditText android:id="@+id/TextToSpeach" android:layout_x="0px"
+		android:layout_width="260px" android:lines="3" android:layout_height="60px" android:layout_y="80px"></EditText>
+
+	<ImageView android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:id="@+id/RadioConnection" android:src="@drawable/icon_radio_off" android:layout_x="700px" android:layout_y="20px"></ImageView>
+	<ImageButton android:layout_width="wrap_content"
+		android:id="@+id/SayIt" android:layout_y="80px" android:layout_height="60px"
+		android:paddingTop="12px" android:layout_x="256px"
+		android:src="@android:drawable/ic_lock_silent_mode_off"></ImageButton>
+</AbsoluteLayout>

@@ -3,9 +3,20 @@
     <string name="hello">Hello World, TuxAndDroid!</string>
     <string name="app_name">TuxAndDroid</string>
 <string name="pc_ip">Server address</string>
-<string name="add_attitune_title">Add a new attitune url</string>
+<string name="pc_port">Port of TuxHttpServer</string><string name="add_attitune_title">Add a new attitune url</string>
 <string name="edit_attitune_title">Edit this attitune</string><string name="delete_attitune_title">Delete this attitune from your list</string><string name="ok">OK</string>
 <string name="cancel">Cancel</string>
 
 
+<string name="please_configure">Please use Menu &gt; Parameters to configure TuxDroid IP and PORT</string>
+<string name="cant_contact_server">Can't contact server, check your IP or your data connection</string>
+<string name="dongle_not_connected">Dongle is not connected, please connect it</string>
+<string name="tux_not_found">Can't connect tux, check it's well turned on</string>
+
+<string name="pc_ip_desc">IP or hostname of the tux's server</string>
+<string name="pc_port_description">Port listen by tux server (270 on oldest tux server version and 54321 on newer version)</string>
+<string name="simulator_mode">Emulator mode</string>
+<string name="simulator_mode_desc">Use a fake tuxdroid to simulate you have a real tuxdroid</string>
+<string name="unimplemented_yet">Not yet implemented</string>
+<string name="you_are_not_connected">You are not connected to tux check parameters</string>
 </resources>
