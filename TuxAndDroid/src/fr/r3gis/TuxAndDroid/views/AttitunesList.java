@@ -226,12 +226,11 @@ public class AttitunesList extends ListActivity {
 	}
 
 	private void processLaunch(String url){
-		ApiConnector.tux.attitune.load(url);
-		ApiConnector.tux.attitune.play();
+		ApiConnector.tuxPlayAttitune(url);
 	}
 	
 	private void processStopAtt(){
-		ApiConnector.tux.attitune.stop();
+		ApiConnector.tuxStopAttitune();
 	}
 	
 	private void processUpdate(long rowId, DialogWrapper wrapper){

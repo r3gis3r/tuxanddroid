@@ -1,3 +1,5 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-<EditTextPreference android:title="@string/pc_ip" android:key="pc_ip" android:summary="IP or hostname of the tux's server" android:defaultValue="192.168.18.1"></EditTextPreference>
+<CheckBoxPreference android:key="use_internal" android:title="@string/simulator_mode" android:summary="@string/simulator_mode_desc" android:defaultValue="false"></CheckBoxPreference><EditTextPreference android:title="@string/pc_ip" android:key="pc_ip" android:summary="@string/pc_ip_desc"></EditTextPreference>
+<EditTextPreference android:key="pc_port" android:title="@string/pc_port" android:summary="@string/pc_port_description" android:defaultValue="54321"></EditTextPreference>
+
 </PreferenceScreen>
