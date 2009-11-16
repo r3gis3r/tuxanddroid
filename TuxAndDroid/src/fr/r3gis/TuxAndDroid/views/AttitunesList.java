@@ -3,8 +3,8 @@ package fr.r3gis.TuxAndDroid.views;
 import fr.r3gis.TuxAndDroid.R;
 import fr.r3gis.TuxAndDroid.provider.AttitunesProvider;
 import fr.r3gis.TuxAndDroid.service.ApiConnector;
+import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ListActivity;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.DialogInterface;
@@ -17,13 +17,17 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.AdapterView.OnItemClickListener;
 
-public class AttitunesList extends ListActivity {
+public class AttitunesList extends Activity {
 	private static final int ADD_ID = Menu.FIRST + 1;
 	private static final int EDIT_ID = Menu.FIRST + 2;
 	private static final int DELETE_ID = Menu.FIRST + 3;
@@ -40,7 +44,9 @@ public class AttitunesList extends ListActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		
+		setContentView(R.layout.attitunes);
+		
 		attituneCursor = managedQuery(AttitunesProvider.Attitunes.CONTENT_URI,
 				PROJECTION, null, null, null);
 
@@ -49,9 +55,33 @@ public class AttitunesList extends ListActivity {
 						AttitunesProvider.Attitunes.FIELD_NAME,
 						AttitunesProvider.Attitunes.FIELD_URL }, new int[] {
 						R.id.row_name, R.id.row_url });
+		
+		ListView list_view = (ListView) findViewById(R.id.AttitunesList);
+		
+		list_view.setAdapter(adapter);
+		registerForContextMenu(list_view);
+		
+		list_view.setOnItemClickListener(new OnItemClickListener() {
 
-		setListAdapter(adapter);
-		registerForContextMenu(getListView());
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
+					long id) {
+				attituneCursor.moveToPosition(position);
+				Log.i("Attitune list", attituneCursor.getString(2));
+				processLaunch(attituneCursor.getString(2));
+				
+			}
+		});
+		
+		
+		Button cancel_btn = (Button) findViewById(R.id.CancelAttitunes);
+		cancel_btn.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
+		
 	}
 
 	@Override
@@ -92,18 +122,6 @@ public class AttitunesList extends ListActivity {
 				android.R.drawable.ic_menu_delete).setAlphabeticShortcut('d');
 	}
 	
-	@Override
-	protected void onListItemClick(ListView l, View v, int position, long id) {
-		
-		super.onListItemClick(l, v, position, id);
-		
-		attituneCursor.moveToPosition(position);
-		
-	//	launch( attituneCursor.getString(2));
-		Log.i("Attitune list", attituneCursor.getString(2));
-		processLaunch(attituneCursor.getString(2));
-		
-	}
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {

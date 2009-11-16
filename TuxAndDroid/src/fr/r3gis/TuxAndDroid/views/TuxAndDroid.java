@@ -37,6 +37,7 @@ public class TuxAndDroid extends Activity {
 
 	public static final int PARAMS_MENU = Menu.FIRST + 1;
 	public static final int ATTITUNES_MENU = Menu.FIRST + 2;
+	public static final int HELP_MENU = Menu.FIRST + 3;
 
 	private GestureDetector mGestureDetector;
 
@@ -115,7 +116,6 @@ public class TuxAndDroid extends Activity {
 		//Manage application updates
 		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
 		int last_version = sp.getInt("last_version", 0);
-		Log.d("TUXANDDROID", "Last version is : "+last_version);
 		if(last_version == 0){
 			//First launch
 			startActivity(new Intent(this, FirstLaunch.class));
@@ -140,6 +140,9 @@ public class TuxAndDroid extends Activity {
 			return true;
 		case ATTITUNES_MENU:
 			startActivity(new Intent(this, AttitunesList.class));
+			return true;
+		case HELP_MENU:
+			startActivity(new Intent(this, FirstLaunch.class));
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
@@ -179,6 +182,9 @@ public class TuxAndDroid extends Activity {
 
 		menu.add(Menu.NONE, ATTITUNES_MENU, Menu.NONE, "Attitunes").setIcon(
 				android.R.drawable.ic_menu_gallery);
+		
+		menu.add(Menu.NONE, HELP_MENU, Menu.NONE, "Help").setIcon(
+				android.R.drawable.ic_menu_help);
 	}
 
 	/**
@@ -245,7 +251,19 @@ public class TuxAndDroid extends Activity {
 		} else {
 			setImageSrc(R.id.Flippers, "flippers_down");
 		}
-
+		
+		// Spinning 
+		String lvalue = current_status.get(TuxAPIConst.ST_NAME_SPIN_LEFT_MOTOR_ON);
+		String rvalue = current_status.get(TuxAPIConst.ST_NAME_SPIN_RIGHT_MOTOR_ON);
+		if(lvalue != null && lvalue.equals(TuxAPIConst.SSV_ON)){
+			setImageSrc(R.id.Spin, "spin_left");
+		}else if(rvalue != null && rvalue.equals(TuxAPIConst.SSV_ON)){
+			setImageSrc(R.id.Spin, "spin_right");
+		}else{
+			setImageSrc(R.id.Spin, "spin_off");
+		}
+		
+		
 		// And now treat eyes states
 		value = current_status.get(TuxAPIConst.ST_NAME_EYES_POSITION);
 		if (value != null && value.equals(TuxAPIConst.SSV_CLOSE)) {
@@ -363,10 +381,11 @@ public class TuxAndDroid extends Activity {
 				float velocityY) {
 			double x1 = e1.getX()*scale;
 			double y1 = e1.getY()*scale;
-			// float x2 = e2.getX()*scale;
+			double x2 = e2.getX()*scale;
 			double y2 = e2.getY()*scale;
 
 			double fysens = y2 - y1;
+			double fxsens = x2 - x1;
 			int ysens = (fysens > 0) ? 1 : -1;
 
 			// Eyes
@@ -379,7 +398,9 @@ public class TuxAndDroid extends Activity {
 				ApiConnector.tuxMouthMove(ysens);
 			} else if (142.0 <= y1 && y1 <= 294.0) {
 				ApiConnector.tuxFlippersMove(ysens);
-			} else {
+			} else if(294.0 < y1){
+				ApiConnector.tuxSpinDuring(fxsens / 200);
+			}else{
 				Log.d("NOT Cached ", "----");
 				Log.d("d", e1.toString());
 				Log.d("e2", e2.toString());
