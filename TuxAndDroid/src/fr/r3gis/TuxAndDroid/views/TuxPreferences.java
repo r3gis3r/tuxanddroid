@@ -14,9 +14,20 @@ public class TuxPreferences extends PreferenceActivity implements OnSharedPrefer
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.preferences);
+		
 		getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
 		
+		
+		
+		/*
+		ListPreference locpref = (ListPreference) getPreferenceScreen().findPreference("locutor");
+		String[] voicelist = ApiConnector.tuxGetVoices();
+		locpref.setEntries(voicelist);
+		locpref.setEntryValues(voicelist);
+		*/
 		updatePrefsAvailability();
+		
+		
 		Log.i("TuxPrefs", "Preferences started");
 	}
 	

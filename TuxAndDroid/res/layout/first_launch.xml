@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="wrap_content"
+  android:layout_height="wrap_content" android:orientation="vertical">
+<ScrollView android:id="@+id/ScrollView01" android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_weight="1"><LinearLayout android:id="@+id/LinearLayout01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="vertical"><TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:autoLink="web" android:id="@+id/FirstLaunchText" android:text="@string/first_launch_text"></TextView><ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/help" android:id="@+id/HelpImage" android:layout_gravity="center_horizontal"></ImageView></LinearLayout>
+
+</ScrollView><Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/ok" android:id="@+id/FirstScreenOk" android:layout_gravity="center_horizontal"></Button>
+
+
+
+</LinearLayout>

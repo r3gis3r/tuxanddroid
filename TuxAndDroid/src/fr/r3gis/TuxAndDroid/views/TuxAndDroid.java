@@ -11,8 +11,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Display;
 import android.view.GestureDetector;
@@ -30,6 +32,8 @@ public class TuxAndDroid extends Activity {
 
 	private Intent serviceIntent = null;
 	private boolean connected = false;
+	
+	public static int CURRENT_VERSION = 1;
 
 	public static final int PARAMS_MENU = Menu.FIRST + 1;
 	public static final int ATTITUNES_MENU = Menu.FIRST + 2;
@@ -55,25 +59,31 @@ public class TuxAndDroid extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		//Window transparency
 		getWindow().setFormat(PixelFormat.TRANSLUCENT);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND,
 				WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
 
+		//Detect display mode
 		WindowManager w = getWindowManager();
 		Display d = w.getDefaultDisplay();
-		
 		int width = d.getWidth();
 		//int height = d.getHeight();
 		if (width == 800 && d.getOrientation() == 0) {
+			// should be detect as 800x480 landscape
+			// TODO: be sure it is x480
 			is_big_screen = true;
 		}
-
+		
+		
+		
+		
 		setContentView(R.layout.main);
-
+		
 		// Listen for absolute layout events
 		View tuxframe = findViewById(R.id.TuxMain);
 		mGestureDetector = new GestureDetector(this, new MyGestureListener());
-
 		tuxframe.setOnTouchListener(new View.OnTouchListener() {
 
 			@Override
@@ -100,7 +110,21 @@ public class TuxAndDroid extends Activity {
 		// Start service
 		serviceIntent = new Intent(this, ApiConnector.class);
 		startService(serviceIntent);
+		
+		
+		//Manage application updates
+		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+		int last_version = sp.getInt("last_version", 0);
+		Log.d("TUXANDDROID", "Last version is : "+last_version);
+		if(last_version == 0){
+			//First launch
+			startActivity(new Intent(this, FirstLaunch.class));
+		}else if(last_version != CURRENT_VERSION){
+			//Changelog
+		}
+		
 	}
+	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -150,7 +174,7 @@ public class TuxAndDroid extends Activity {
 	}
 
 	private void populateMenu(Menu menu) {
-		menu.add(Menu.NONE, PARAMS_MENU, Menu.NONE, "Params").setIcon(
+		menu.add(Menu.NONE, PARAMS_MENU, Menu.NONE, getString(R.string.params)).setIcon(
 				android.R.drawable.ic_menu_preferences);
 
 		menu.add(Menu.NONE, ATTITUNES_MENU, Menu.NONE, "Attitunes").setIcon(
@@ -172,20 +196,6 @@ public class TuxAndDroid extends Activity {
 	}
 
 	/**
-	 * Unique attach a button (according to its id to a click listener
-	 * 
-	 * @param layout_id
-	 *            button identifier
-	 * @param cl
-	 *            OnClickListener instance to be fired on click
-	 */
-	/*
-	 * private void attachActionToButton(int layout_id, View.OnClickListener cl)
-	 * { ImageButton bt = (ImageButton) findViewById(layout_id);
-	 * bt.setOnClickListener(cl); }
-	 */
-
-	/**
 	 * Set all buttons enable/disable mode
 	 * 
 	 * @param active
@@ -197,19 +207,6 @@ public class TuxAndDroid extends Activity {
 		bt.setEnabled(active);
 	}
 
-	/**
-	 * Set a button enable/disabled according to his id
-	 * 
-	 * @param layout_id
-	 *            button identifier
-	 * @param active
-	 *            whether the button should be enable/disabled
-	 */
-	/*
-	 * private void setButtonEnable(int layout_id, boolean active) { ImageButton
-	 * bt; bt = (ImageButton) findViewById(layout_id); bt.setFocusable(active);
-	 * bt.setEnabled(active); }
-	 */
 
 	/**
 	 * Callback for intent from service that say that tux state changed Change
@@ -325,7 +322,7 @@ public class TuxAndDroid extends Activity {
 		private double scale = 1.0;
 		public MyGestureListener() {
 			if(!is_big_screen){
-				scale = 0.514;
+				scale = 1.745;
 			}
 		}
 		@Override
@@ -343,7 +340,8 @@ public class TuxAndDroid extends Activity {
 				ApiConnector.tuxEyesLedToggle(1);
 
 			}
-			Log.d("onSingleTapUp", ev.toString());
+			
+			Log.d("onSingleTapUp", "--> "+x+","+y+" "+scale+" - "+ev.toString());
 			return true;
 		}
 
