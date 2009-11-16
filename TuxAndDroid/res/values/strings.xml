@@ -24,6 +24,6 @@
 <string name="pitch">TTS Pitch</string>
 <string name="locutor_desc">Voice to use for TTS Tuxdroid engine</string>
 <string name="first_launch">First launch</string>
-<string name="first_launch_text">Welcome to &lt;b&gt;TuxAndDroid&lt;/b&gt; !&lt;br/&gt;&lt;br/&gt;This application will allow you to control your &lt;b&gt;TuxDroid&lt;/b&gt;&lt;i&gt;(see http://www.kysoh.com)&lt;/i&gt;&lt;br/&gt;&lt;br/&gt;&lt;b&gt;1.&lt;/b&gt; Use &lt;b&gt;Menu &gt; Option&lt;/b&gt; to configure IP and port to access the machine where the tuxdroid's dongle is connected.&lt;br/&gt;&lt;b&gt;2.&lt;/b&gt; Come back to the main screen&lt;br/&gt;&lt;b&gt;3.&lt;/b&gt; You can now control your TuxDroid by doing gestures on his eyes, mouth and flippers.</string>
-
+<string name="back">Back</string>
+<string name="first_launch_text">Welcome to &lt;b&gt;TuxAndDroid&lt;/b&gt; !&lt;br/&gt;This application will allow you to control your &lt;b&gt;TuxDroid&lt;/b&gt;&lt;i&gt;(see http://www.kysoh.com)&lt;/i&gt;&lt;br/&gt;&lt;br/&gt;&lt;b&gt;1.&lt;/b&gt; Use &lt;b&gt;Menu &gt; Option&lt;/b&gt; to configure IP &lt;i&gt;(and port)&lt;/i&gt; of your own TuxDroid server.&lt;br/&gt;&lt;i&gt;For demo purpose you can also choose to use &lt;b&gt;Emulator mode&lt;/b&gt; that simulate you are connected to a real TuxDroid&lt;/i&gt;&lt;br/&gt;&lt;br/&gt;&lt;b&gt;2.&lt;/b&gt; Come back to the main screen&lt;br/&gt;&lt;br/&gt;&lt;b&gt;3.&lt;/b&gt; You can now control your TuxDroid by doing gestures on his eyes, mouth and flippers.&lt;br/&gt;</string>
 </resources>

@@ -2,6 +2,9 @@ package fr.r3gis.TuxAndDroid.service;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import com.tuxisalive.api.TuxAPI;
 import com.tuxisalive.api.TuxAPIConst;
 import com.tuxisalive.api.TuxAPILedBase;
@@ -166,7 +169,7 @@ public class ApiConnector extends Service {
 				}
 			};
 
-			if (host.equals("") || port == -1) {
+			if ((host.equals("") || port == -1) && prefs.getInt("last_version", 0) != 0) {
 				Log.w("TUXAPI", "No configured server");
 				CharSequence text = getString(R.string.please_configure);
 				Toast toast = Toast.makeText(getApplicationContext(), text,
@@ -402,6 +405,46 @@ public class ApiConnector extends Service {
 			}
 			singleton.sendBroadcast(singleton.broadcast_state_changed);
 		}
+	}
+	
+	static public void tuxSpinDuring(Double duration){
+		if(!singleton.is_connected){
+			String errorString = singleton.getString(R.string.you_are_not_connected);
+			singleton.current_status.put("ErrorInfo", errorString);
+			singleton.sendBroadcast(singleton.broadcast_connect_error);
+			return; 
+		}
+		
+		if(!singleton.use_emulator){
+			if (duration > 0) {
+				tux.spinning.leftOnDuring(duration);
+			} else {
+				tux.spinning.rightOnDuring(-duration);
+			}
+		}else{
+			if (duration > 0) {
+				singleton.current_status.put(TuxAPIConst.ST_NAME_SPIN_LEFT_MOTOR_ON, TuxAPIConst.SSV_ON);
+			} else {
+				singleton.current_status.put(TuxAPIConst.ST_NAME_SPIN_RIGHT_MOTOR_ON, TuxAPIConst.SSV_ON);
+			}
+			Timer t = new Timer();
+			TimerTask tt = new TimerTask(){
+				public void run() {
+					singleton.emulator_clear_spin();
+				}
+			};
+			t.schedule(tt, (long) Math.abs(duration*1000));
+			//Log.d("APICONNECTOR", "Schedule "+Math.abs(duration)+" ms" );
+			
+			singleton.sendBroadcast(singleton.broadcast_state_changed);
+		}
+		
+	}
+	
+	private void emulator_clear_spin(){
+		singleton.current_status.put(TuxAPIConst.ST_NAME_SPIN_LEFT_MOTOR_ON, TuxAPIConst.SSV_OFF);
+		singleton.current_status.put(TuxAPIConst.ST_NAME_SPIN_RIGHT_MOTOR_ON, TuxAPIConst.SSV_OFF);
+		singleton.sendBroadcast(singleton.broadcast_state_changed);
 	}
 	
 	static public String[] tuxGetVoices(){
