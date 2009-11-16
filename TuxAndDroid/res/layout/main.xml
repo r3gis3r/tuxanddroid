@@ -17,7 +17,7 @@
 
 
 
-<EditText android:id="@+id/TextToSpeach" android:layout_x="0px" android:layout_width="260px" android:lines="3" android:text="Bonjour le monde" android:layout_height="60px" android:layout_y="80px"></EditText>
+<EditText android:id="@+id/TextToSpeach" android:layout_x="0px" android:layout_width="260px" android:lines="3" android:layout_height="60px" android:layout_y="80px"></EditText>
 
 <ImageView android:layout_y="23dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_x="287dip" android:id="@+id/RadioConnection" android:src="@drawable/icon_radio_off"></ImageView>
 <ImageButton android:layout_width="wrap_content" android:id="@+id/SayIt" android:layout_y="80px" android:layout_height="60px" android:paddingTop="12px" android:layout_x="256px" android:src="@android:drawable/ic_lock_silent_mode_off"></ImageButton>

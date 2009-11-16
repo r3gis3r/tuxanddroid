@@ -152,6 +152,8 @@ public class TuxAPITTS
 			{
 				setLocutor(locutor);
 			}
+			/*
+			 //FIXME : 3R modification to use new api, we should determine wich is the current level of api and use it
 			cmd = String.format("tts/locutor?name=%s", this.locutor);
 			ret = cmdSimpleResult(cmd);
 			if (!ret)
@@ -160,11 +162,13 @@ public class TuxAPITTS
 				asyncStackLock.mutexIn.release();
 				return false;
 			}
+			*/
 			// Set the pitch
 			if (pitch != 0)
 			{
 				setPitch(pitch);
 			}
+			/*
 			cmd = String.format("tts/pitch?value=%d", this.pitch);
 			ret = cmdSimpleResult(cmd);
 			if (!ret)
@@ -173,6 +177,7 @@ public class TuxAPITTS
 				asyncStackLock.mutexIn.release();
 				return false;
 			}
+			*/
 			// Remove ending lines
 			text = text.replace("\n", ".");
 			// Try to encode the string
@@ -181,7 +186,7 @@ public class TuxAPITTS
 				text = URLEncoder.encode(text, "UTF-8");
 			} catch (Exception e) {}
 			// Perform the speech
-			cmd = String.format("tts/speak?text=%s", text);
+			cmd = String.format("tts/speak?text=%s&locutor=%s&pitch=%d", text, this.locutor, this.pitch);
 			ret = cmdSimpleResult(cmd);
 			if (!ret)
 			{

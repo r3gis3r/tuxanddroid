@@ -25,13 +25,12 @@
 			android:layout_y="294px" android:layout_width="389px"
 			android:layout_height="69px"></ImageView>
 	</AbsoluteLayout>
-	<EditText android:id="@+id/TextToSpeach" android:layout_x="0px"
-		android:layout_width="260px" android:lines="3" android:layout_height="60px" android:layout_y="80px"></EditText>
+	<EditText android:id="@+id/TextToSpeach" android:lines="3" android:layout_height="60px" android:layout_y="80px" 
+		android:imeOptions="flagNoExtractUi" android:layout_width="320px" android:layout_x="20px"></EditText>
 
 	<ImageView android:layout_width="wrap_content"
 		android:layout_height="wrap_content" android:id="@+id/RadioConnection" android:src="@drawable/icon_radio_off" android:layout_x="700px" android:layout_y="20px"></ImageView>
 	<ImageButton android:layout_width="wrap_content"
 		android:id="@+id/SayIt" android:layout_y="80px" android:layout_height="60px"
-		android:paddingTop="12px" android:layout_x="256px"
-		android:src="@android:drawable/ic_lock_silent_mode_off"></ImageButton>
+		android:paddingTop="12px" android:src="@android:drawable/ic_lock_silent_mode_off" android:layout_x="336px"></ImageButton>
 </AbsoluteLayout>

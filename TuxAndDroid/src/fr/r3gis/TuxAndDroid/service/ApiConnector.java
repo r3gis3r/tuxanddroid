@@ -1,13 +1,11 @@
 package fr.r3gis.TuxAndDroid.service;
 
 import java.util.HashMap;
-
+import java.util.List;
 import com.tuxisalive.api.TuxAPI;
 import com.tuxisalive.api.TuxAPIConst;
 import com.tuxisalive.api.TuxAPILedBase;
-
 import fr.r3gis.TuxAndDroid.R;
-
 import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -201,6 +199,14 @@ public class ApiConnector extends Service {
 					Log.w("TUXAPI", "No value for "+to_synchro[i]);
 				}
 			}
+			
+			//Set locutor
+			List<String> voices = tux.tts.getVoices();
+			
+			
+			
+			Log.d("TUXAPI", "Set voice to "+voices.get(0));
+			tux.tts.setLocutor(voices.get(0));
 		}
 		
 		is_connected = true;
@@ -266,7 +272,7 @@ public class ApiConnector extends Service {
 	 */
 	static public void tuxTtsSpeak(String tosay) {
 		if(!singleton.use_emulator){
-			tux.tts.speak(tosay);
+			tux.tts.speakAsync(tosay);
 		}else{
 			String errorString = singleton.getString(R.string.unimplemented_yet);
 			singleton.current_status.put("ErrorInfo", errorString);
@@ -396,6 +402,20 @@ public class ApiConnector extends Service {
 			}
 			singleton.sendBroadcast(singleton.broadcast_state_changed);
 		}
+	}
+	
+	static public String[] tuxGetVoices(){
+		if(!singleton.use_emulator && singleton.is_connected && singleton.is_started){
+			List<String> voices = tux.tts.getVoices();
+			String[] mvoices = new String[voices.size()];
+			int i=0;
+			for(String voice : mvoices){
+				mvoices[i] = voice;
+				i++;
+			}
+			return mvoices;
+		}
+		return null;
 	}
 	
 
