@@ -38,6 +38,7 @@ public class TuxAndDroid extends Activity {
 	public static final int PARAMS_MENU = Menu.FIRST + 1;
 	public static final int ATTITUNES_MENU = Menu.FIRST + 2;
 	public static final int HELP_MENU = Menu.FIRST + 3;
+	public static final int QUIT_MENU = Menu.FIRST + 4;
 
 	private GestureDetector mGestureDetector;
 
@@ -55,6 +56,7 @@ public class TuxAndDroid extends Activity {
 			onErrorTuxStatus();
 		}
 	};
+	
 
 	/** Called when the activity is first created. */
 	@Override
@@ -76,8 +78,6 @@ public class TuxAndDroid extends Activity {
 			// TODO: be sure it is x480
 			is_big_screen = true;
 		}
-		
-		
 		
 		
 		setContentView(R.layout.main);
@@ -107,15 +107,13 @@ public class TuxAndDroid extends Activity {
 		setButtonsEnabled(false);
 		// Attach buttons to actions they should do
 		attachActionsToButtons();
-
+		
 		// Start service
 		serviceIntent = new Intent(this, ApiConnector.class);
-		startService(serviceIntent);
-		
 		
 		//Manage application updates
 		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-		int last_version = sp.getInt("last_version", 0);
+		final int last_version = sp.getInt("last_version", 0);
 		if(last_version == 0){
 			//First launch
 			startActivity(new Intent(this, FirstLaunch.class));
@@ -123,9 +121,40 @@ public class TuxAndDroid extends Activity {
 			//Changelog
 		}
 		
+		Thread t = new Thread(){
+			public void run() {
+				registerReceiver(receiver, new IntentFilter(
+						ApiConnector.BRODCAST_STATE_CHANGED));
+
+				registerReceiver(error_receiver, new IntentFilter(
+						ApiConnector.BRODCAST_ERROR));
+				
+				if(last_version != 0){
+					serviceIntent.setAction(ApiConnector.AUTO_CONNECT);
+				} else {
+					serviceIntent.setAction(ApiConnector.JUST_START);
+				}
+				
+				startService(serviceIntent);
+				
+			};
+		};
+		
+		t.start();
+		
+				
 	}
 	
-
+	
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		unregisterReceiver(receiver);
+		unregisterReceiver(error_receiver);
+		stopService(serviceIntent);
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		populateMenu(menu);
@@ -144,36 +173,11 @@ public class TuxAndDroid extends Activity {
 		case HELP_MENU:
 			startActivity(new Intent(this, FirstLaunch.class));
 			return true;
+		case QUIT_MENU:
+			finish();
+			return true;
 		}
 		return super.onOptionsItemSelected(item);
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-		registerReceiver(receiver, new IntentFilter(
-				ApiConnector.BRODCAST_STATE_CHANGED));
-
-		registerReceiver(error_receiver, new IntentFilter(
-				ApiConnector.BRODCAST_ERROR));
-		// startService(serviceIntent);
-	}
-
-	@Override
-	public void onStop() {
-		super.onStop();
-		unregisterReceiver(receiver);
-		unregisterReceiver(error_receiver);
-		// stopService(serviceIntent);
-	}
-
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-
-		// Should we destroy it?
-		// For next steps surely not
-		stopService(serviceIntent);
 	}
 
 	private void populateMenu(Menu menu) {
@@ -185,6 +189,9 @@ public class TuxAndDroid extends Activity {
 		
 		menu.add(Menu.NONE, HELP_MENU, Menu.NONE, "Help").setIcon(
 				android.R.drawable.ic_menu_help);
+		
+		menu.add(Menu.NONE, QUIT_MENU, Menu.NONE, "Quit").setIcon(
+				android.R.drawable.ic_menu_close_clear_cancel);
 	}
 
 	/**
@@ -235,6 +242,9 @@ public class TuxAndDroid extends Activity {
 			}
 			setButtonsEnabled(active);
 			connected = active;
+			if(!active){
+				return;
+			}
 		}
 
 		// Mouth
