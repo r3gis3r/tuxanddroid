@@ -2,6 +2,7 @@ package fr.r3gis.TuxAndDroid.views;
 
 import fr.r3gis.TuxAndDroid.R;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
@@ -30,11 +31,21 @@ public class FirstLaunch extends Activity {
 		okbutton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				Log.d("TUXANDDROID", "Set current version pref "+TuxAndDroid.CURRENT_VERSION+ " while "+sp.getInt("last_version", 0));
+				int old_version = sp.getInt("last_version", 0);
 				Editor editor = sp.edit();
 				editor.putInt("last_version", TuxAndDroid.CURRENT_VERSION);
 				editor.commit();
 				finish();
+				if(old_version == 0){
+					//goto configure options
+					gotoOptions();
+					
+				}
 			}
 		});
+	}
+	
+	private void gotoOptions(){
+		startActivity(new Intent(this, TuxPreferences.class));
 	}
 }

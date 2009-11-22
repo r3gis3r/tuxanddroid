@@ -60,9 +60,13 @@ public class ApiConnector extends Service {
 	// TODO: we may introduce delay but from now useless
 	private HashMap<String, String> current_status = new HashMap<String, String>();
 
+	public static String AUTO_CONNECT = "fr.r3gis.TuxAndDroid.auto_connect";
+	public static String JUST_START = "fr.r3gis.TuxAndDroid.start";
+	
 	@Override
-	public void onCreate() {
-		super.onCreate();
+	public void onStart(Intent intent, int startId) {
+		super.onStart(intent, startId);
+		Log.d("APITUX", "Start...");
 		// Init hash map of current status with some defaults values
 		current_status
 				.put(TuxAPIConst.ST_NAME_RADIO_STATE, TuxAPIConst.SSV_OFF);
@@ -78,17 +82,24 @@ public class ApiConnector extends Service {
 				TuxAPIConst.SSV_OFF);
 		singleton = this;
 		// Ask a tux server connection
-		connectToServer();
+		if(intent.getAction().equals(AUTO_CONNECT)){
+			connectToServer();
+		}
 	}
 
+	
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-
+		Log.d("APITUX", "Destroy");
 		// Destroy tuxapi connection if connected
+		if (connecting_thread != null) {
+			connecting_thread.stop();
+		}
 		if (is_started) {
 			tux.destroy();
 		}
+		
 	}
 
 	@Override
@@ -105,6 +116,11 @@ public class ApiConnector extends Service {
 		if (connecting_thread != null) {
 			connecting_thread.stop();
 		}
+		
+		current_status.put(TuxAPIConst.ST_NAME_RADIO_STATE, TuxAPIConst.SSV_OFF);
+		is_connected = false;
+		sendBroadcast(broadcast_state_changed);
+		
 
 		// Get tux server ip from preferences
 		SharedPreferences prefs = PreferenceManager
@@ -297,27 +313,37 @@ public class ApiConnector extends Service {
 		}
 		
 		String key;
-		TuxAPILedBase myled;
+		
 		if(side <0){
 			key = TuxAPIConst.ST_NAME_RIGHT_LED;
 		}else{
 			key = TuxAPIConst.ST_NAME_LEFT_LED;
 		}
 		
+		final int fside = side;
+		final String fkey = key;
 		
 		if(!singleton.use_emulator){
+			Thread t = new Thread(){
+				@Override
+				public void run() {
+					TuxAPILedBase myled;
+					if(fside <0){
+						myled = tux.led.right;
+					}else{
+						myled = tux.led.left;
+					}
+					
+					if (singleton.current_status.get(fkey).equals(TuxAPIConst.SSV_OFF)) {
+						myled.on();
+					} else {
+						myled.off();
+					}
+					super.run();
+				}
+			};
+			t.start();
 			
-			if(side <0){
-				myled = tux.led.right;
-			}else{
-				myled = tux.led.left;
-			}
-			
-			if (singleton.current_status.get(key).equals(TuxAPIConst.SSV_OFF)) {
-				myled.on();
-			} else {
-				myled.off();
-			}
 		}else{
 			if (singleton.current_status.get(key).equals(
 					TuxAPIConst.SSV_OFF)) {
@@ -340,11 +366,21 @@ public class ApiConnector extends Service {
 		}
 		
 		if(!singleton.use_emulator){
-			if (sens > 0) {
-				tux.mouth.open();
-			} else {
-				tux.mouth.close();
-			}
+			final int fsens = sens;
+			Thread t = new Thread(){
+				@Override
+				public void run() {
+					
+					if (fsens > 0) {
+						tux.mouth.open();
+					} else {
+						tux.mouth.close();
+					}
+					super.run();
+				}
+			};
+			t.start();
+			
 		}else{
 			
 			if (sens > 0) {
@@ -366,11 +402,19 @@ public class ApiConnector extends Service {
 		}
 		
 		if(!singleton.use_emulator){
-			if (sens < 0) {
-				tux.eyes.open();
-			} else {
-				tux.eyes.close();
-			}
+			final int fsens = sens;
+			Thread t = new Thread(){
+				@Override
+				public void run() {
+					if (fsens < 0) {
+						tux.eyes.open();
+					} else {
+						tux.eyes.close();
+					}
+				}
+			};
+			t.start();
+			
 		}else{
 			
 			if (sens < 0) {
@@ -391,11 +435,18 @@ public class ApiConnector extends Service {
 		}
 		
 		if(!singleton.use_emulator){
-			if (sens > 0) {
-				tux.flippers.down();
-			} else {
-				tux.flippers.up();
-			}
+			final int fsens = sens;
+			Thread t = new Thread(){
+				@Override
+				public void run() {
+					if (fsens > 0) {
+						tux.flippers.down();
+					} else {
+						tux.flippers.up();
+					}
+				}
+			};
+			t.start();
 		}else{
 			
 			if (sens > 0) {
@@ -416,16 +467,23 @@ public class ApiConnector extends Service {
 		}
 		
 		if(!singleton.use_emulator){
-			if (duration > 0) {
-				tux.spinning.leftOnDuring(duration);
-			} else {
-				tux.spinning.rightOnDuring(-duration);
-			}
+			final Double fduration = duration;
+			Thread t = new Thread(){
+				@Override
+				public void run() {
+					if (fduration > 0) {
+						tux.spinning.rightOnDuring(fduration);
+					} else {
+						tux.spinning.leftOnDuring(-fduration);
+					}
+				}
+			};
+			t.start();
 		}else{
 			if (duration > 0) {
-				singleton.current_status.put(TuxAPIConst.ST_NAME_SPIN_LEFT_MOTOR_ON, TuxAPIConst.SSV_ON);
-			} else {
 				singleton.current_status.put(TuxAPIConst.ST_NAME_SPIN_RIGHT_MOTOR_ON, TuxAPIConst.SSV_ON);
+			} else {
+				singleton.current_status.put(TuxAPIConst.ST_NAME_SPIN_LEFT_MOTOR_ON, TuxAPIConst.SSV_ON);
 			}
 			Timer t = new Timer();
 			TimerTask tt = new TimerTask(){

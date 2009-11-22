@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <AbsoluteLayout android:id="@+id/AbsoluteLayout01"
 	android:layout_width="fill_parent" android:layout_height="fill_parent"
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:background="#3F000000">
+	xmlns:android="http://schemas.android.com/apk/res/android">
 	<AbsoluteLayout android:layout_height="wrap_content"
 		android:layout_width="wrap_content" android:id="@+id/TuxMain"
 		android:layout_y="50px" android:layout_x="320px">
