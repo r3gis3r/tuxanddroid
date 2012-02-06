@@ -34,7 +34,6 @@ public class TuxPreferences extends PreferenceActivity implements OnSharedPrefer
 		
 		bt.setOnClickListener(new OnClickListener(){
 
-			@Override
 			public void onClick(View v) {
 				ApiConnector.singleton.connectToServer();
 				finish();
@@ -63,7 +62,6 @@ public class TuxPreferences extends PreferenceActivity implements OnSharedPrefer
 		//ApiConnector.singleton.connectToServer();
 	}
 
-	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
 			String key) {
 		
