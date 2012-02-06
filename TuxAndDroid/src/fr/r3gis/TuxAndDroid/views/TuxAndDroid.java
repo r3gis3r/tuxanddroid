@@ -87,7 +87,6 @@ public class TuxAndDroid extends Activity {
 		mGestureDetector = new GestureDetector(this, new MyGestureListener());
 		tuxframe.setOnTouchListener(new View.OnTouchListener() {
 
-			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 
 				if (!connected) {

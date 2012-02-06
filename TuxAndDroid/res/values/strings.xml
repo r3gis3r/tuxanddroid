@@ -1,29 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="hello">Hello World, TuxAndDroid!</string>
     <string name="app_name">TuxAndDroid</string>
-<string name="pc_ip">TuxDroid server</string>
-<string name="pc_port">Server port</string><string name="add_attitune_title">Add a new attitune url</string>
-<string name="edit_attitune_title">Edit this attitune</string><string name="delete_attitune_title">Delete this attitune from your list</string><string name="ok">OK</string>
-<string name="cancel">Cancel</string>
+    <string name="pc_ip">TuxDroid server</string>
+    <string name="pc_port">Server port</string>
+    <string name="add_attitune_title">Add a new attitune url</string>
+    <string name="edit_attitune_title">Edit this attitune</string>
+    <string name="delete_attitune_title">Delete this attitune from your list</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="please_configure">Please use Menu > Options to configure TuxDroid IP and PORT</string>
+    <string name="cant_contact_server">Can\'t contact server, check your IP or your data connection</string>
+    <string name="dongle_not_connected">Dongle is not connected, please connect it</string>
+    <string name="tux_not_found">Can\'t connect tux, check it\'s well turned on</string>
+    <string name="pc_ip_desc">IP or hostname of the tux\'s server</string>
+    <string name="pc_port_desc">Port listen by tux server (270 on oldest tux server version and 54321 on newer version)</string>
+    <string name="simulator_mode">Emulator mode</string>
+    <string name="simulator_mode_desc">Use a fake tuxdroid to simulate you have a real tuxdroid</string>
+    <string name="unimplemented_yet">Not possible in emulator mode</string>
+    <string name="you_are_not_connected">You are not connected to tux check parameters</string>
+    <string name="params">Options</string>
+    <string name="locutor">TTS Locutor</string>
+    <string name="pitch">TTS Pitch</string>
+    <string name="locutor_desc">Voice to use for TTS Tuxdroid engine</string>
+    <string name="first_launch">First launch</string>
+    <string name="back">Back</string>
+    <string name="first_launch_text">Welcome to &lt;b>TuxAndDroid&lt;/b> !&lt;br/>This application will allow you to control your &lt;b>TuxDroid&lt;/b>&lt;i>(see http://www.kysoh.com)&lt;/i>&lt;br/>&lt;br/>&lt;b>1.&lt;/b> Use &lt;b>Menu > Option&lt;/b> to configure IP &lt;i>(and port)&lt;/i> of your own TuxDroid server.&lt;br/>&lt;i>For demo purpose you can also choose to use &lt;b>Emulator mode&lt;/b> that simulate you are connected to a real TuxDroid&lt;/i>&lt;br/>&lt;br/>&lt;b>2.&lt;/b> Come back to the main screen&lt;br/>&lt;br/>&lt;b>3.&lt;/b> You can now control your TuxDroid by doing gestures on his eyes, mouth and flippers.&lt;br/></string>
 
-
-<string name="please_configure">Please use Menu &gt; Options to configure TuxDroid IP and PORT</string>
-<string name="cant_contact_server">Can't contact server, check your IP or your data connection</string>
-<string name="dongle_not_connected">Dongle is not connected, please connect it</string>
-<string name="tux_not_found">Can't connect tux, check it's well turned on</string>
-
-<string name="pc_ip_desc">IP or hostname of the tux's server</string>
-<string name="pc_port_desc">Port listen by tux server (270 on oldest tux server version and 54321 on newer version)</string>
-<string name="simulator_mode">Emulator mode</string>
-<string name="simulator_mode_desc">Use a fake tuxdroid to simulate you have a real tuxdroid</string>
-<string name="unimplemented_yet">Not possible in emulator mode</string>
-<string name="you_are_not_connected">You are not connected to tux check parameters</string>
-<string name="params">Options</string>
-<string name="locutor">TTS Locutor</string>
-<string name="pitch">TTS Pitch</string>
-<string name="locutor_desc">Voice to use for TTS Tuxdroid engine</string>
-<string name="first_launch">First launch</string>
-<string name="back">Back</string>
-<string name="first_launch_text">Welcome to &lt;b&gt;TuxAndDroid&lt;/b&gt; !&lt;br/&gt;This application will allow you to control your &lt;b&gt;TuxDroid&lt;/b&gt;&lt;i&gt;(see http://www.kysoh.com)&lt;/i&gt;&lt;br/&gt;&lt;br/&gt;&lt;b&gt;1.&lt;/b&gt; Use &lt;b&gt;Menu &gt; Option&lt;/b&gt; to configure IP &lt;i&gt;(and port)&lt;/i&gt; of your own TuxDroid server.&lt;br/&gt;&lt;i&gt;For demo purpose you can also choose to use &lt;b&gt;Emulator mode&lt;/b&gt; that simulate you are connected to a real TuxDroid&lt;/i&gt;&lt;br/&gt;&lt;br/&gt;&lt;b&gt;2.&lt;/b&gt; Come back to the main screen&lt;br/&gt;&lt;br/&gt;&lt;b&gt;3.&lt;/b&gt; You can now control your TuxDroid by doing gestures on his eyes, mouth and flippers.&lt;br/&gt;</string>
 </resources>
